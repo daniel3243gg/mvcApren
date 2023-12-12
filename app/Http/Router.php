@@ -26,7 +26,7 @@ class Router extends Response{
     
     private function addRoute($method,$route,$params = []){
         foreach($params as $key=>$value){
-
+            
             if($value instanceof \Closure){
                 $params['controller'] = $value;
                 unset($params[$key]);
@@ -35,24 +35,24 @@ class Router extends Response{
 
         }
 
-        $patternVariable= "/{(.*?)}/";
+
+        $params['variables'] = [];
+        $patternVariable= '/{(.*?)}/';
+    
 
         if(preg_match_all($patternVariable,$route,$matches)){
-            print_r('entrou');
 
             $route = preg_replace($patternVariable,'(.*?)',$route);
             $params['variables'] = $matches[1];
         }
 
-
         $patternRoute = '/^'.str_replace('/','\/',$route) . "$/";
-        print_r($params);
-        $this->routes[$patternRoute][$method] = $params;
+        $this->routers[$patternRoute][$method] = $params;
     }
 
     public function get($route, $params = []){
         return $this->addRoute("GET",$route,$params);
-
+    
     }
     public function delete($route, $params = []){
         return $this->addRoute("delete",$route,$params);
@@ -78,14 +78,18 @@ class Router extends Response{
         $uri = $this->getUri();  // Adicione os parênteses aqui
     
         $httpMethod = $this->request->getHttpMethod();
-        foreach($this->routes as $patternRoute => $methods){
-            $uri = rtrim($uri, '/');
+        foreach($this->routers as $patternRoute => $methods){
+            echo "Pattern: $patternRoute<br>";
+            echo "URI: $uri<br>";
 
             if(preg_match($patternRoute, $uri,$matches)){
-               
+               echo 'entraaa';
 
                 if($methods[$httpMethod]){
+                    echo '<br>';
+                    print_r($matches);
                     unset($matches[0]);
+                    echo '<br>';
 
                     //chaves
 
