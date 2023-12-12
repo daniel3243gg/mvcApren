@@ -79,17 +79,15 @@ class Router extends Response{
     
         $httpMethod = $this->request->getHttpMethod();
         foreach($this->routers as $patternRoute => $methods){
-            echo "Pattern: $patternRoute<br>";
-            echo "URI: $uri<br>";
+            
 
             if(preg_match($patternRoute, $uri,$matches)){
-               echo 'entraaa';
+               
 
                 if($methods[$httpMethod]){
-                    echo '<br>';
-                    print_r($matches);
+                    echo 'entraa';
                     unset($matches[0]);
-                    echo '<br>';
+                    
 
                     //chaves
 
