@@ -1,7 +1,7 @@
 <?php
 use \App\Controller\Pages\Home;
 use \App\Controller\Pages\About;
-
+use \App\Controller\Pages\Testimony;
 use \App\Http\Router;
 use \App\Http\Response;
 $obRouter->get('/',[
@@ -16,9 +16,12 @@ $obRouter->get('/sobre',[
  }]);
 
 
-$obRouter->get('/pagina/{idPagina}/{acao}',[
-    function ($idPagina,$acao){
-        return new Response(200,'pagina ' . $idPagina.' - '.$acao);
-     }
+ $obRouter->get('/depoimentos',[
+    function (){
+        return new Response(200,Testimony::getTestimonies());
+ }]);
 
-]);
+ $obRouter->post('/depoimentos',[
+    function ($request){
+        return new Response(200,Testimony::getTestimonies());
+ }]);
